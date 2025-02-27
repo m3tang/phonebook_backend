@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 
 const password = process.argv[2];
 
-const url = `mongodb+srv://m3tang:dsZ7TdnnNgQkKjdp@cluster0.iw3cd.mongodb.net/phonebookApp?retryWrites=true&w=majority&appName=Cluster0`;
+const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
 
