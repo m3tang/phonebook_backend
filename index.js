@@ -1,5 +1,6 @@
 const cors = require("cors");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 var morgan = require("morgan");
 const Person = require("./models/person");
@@ -15,7 +16,6 @@ app.use(express.static("dist"));
 
 app.get("/info", (request, response) => {
   Person.find({}).then((persons) => {
-    const count = persons.length;
     const body = `
     Phonebook has info for ${persons.length} people <br /> <br />
     ${Date()}
@@ -54,12 +54,6 @@ app.delete("/api/persons/:id", (request, response) => {
     response.status(204).end();
   });
 });
-
-const generateId = () => {
-  const maxId =
-    persons.length > 0 ? Math.max(...persons.map((n) => Number(n.id))) : 0;
-  return String(maxId + 1);
-};
 
 app.post("/api/persons/", (request, response, next) => {
   const body = request.body;

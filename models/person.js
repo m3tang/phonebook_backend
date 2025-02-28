@@ -8,22 +8,11 @@ const mongoose = require("mongoose");
 //   process.exit(1);
 // }
 
-const password = process.argv[2];
-
 const url = process.env.MONGODB_URI;
 
 mongoose.set("strictQuery", false);
 
 mongoose.connect(url);
-
-function numberValidator(number) {
-  if (!number.includes("-")) {
-    return false;
-  }
-  const [first, second] = number.split("-", 2);
-
-  return val === "something";
-}
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -49,10 +38,10 @@ const personSchema = new mongoose.Schema({
 
       {
         validator: (number) => {
-          const [first, second] = number.split("-");
+          const first = number.split("-")[0];
           return first.length === 2 || first.length === 3;
         },
-        message: (number) => `Numbers before "-" must be 2 or 3 digits only`,
+        message: () => `Numbers before "-" must be 2 or 3 digits only`,
       },
     ],
   },
@@ -66,26 +55,6 @@ personSchema.set("toJSON", {
   },
 });
 
-const Person = mongoose.model("Person", personSchema);
+// const Person = mongoose.model("Person", personSchema);
 
 module.exports = mongoose.model("Person", personSchema);
-
-// Add a person if passing in 5 args
-// if (process.argv.length === 5) {
-//   const person = new Person({
-//     name: process.argv[3],
-//     number: process.argv[4],
-//   });
-
-//   person.save().then((result) => {
-//     console.log("Person saved");
-//     mongoose.connection.close();
-//   });
-// }
-
-// if (process.argv.length === 3) {
-//   Person.find({}).then((result) => {
-//     result.forEach((r) => console.log(r));
-//     mongoose.connection.close();
-//   });
-// }
